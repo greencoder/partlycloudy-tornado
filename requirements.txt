@@ -1,6 +1,9 @@
+beautifulsoup4==4.8.1
+bs4==0.0.1
 certifi==2019.9.11
 chardet==3.0.4
 idna==2.8
 requests==2.22.0
+soupsieve==1.9.5
 tornado==5.1.1
 urllib3==1.25.7
