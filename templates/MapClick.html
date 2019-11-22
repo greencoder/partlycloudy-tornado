@@ -63,7 +63,7 @@
 
       <section id="forecasts">
         <header>
-          <h1>Extended forecast for</h1>
+          <h1>Seven-Day Forecast for</h1>
           <h2>{{ data.get('about').get('location') }}</h2>
         </header>
         <main class="nopadding">
@@ -89,7 +89,7 @@
       </section>
 
       <section id="radar">
-        <header>Radar and Satellite</header>
+        <header>Radar and Satellite Images</header>
         <main class="rad-sat">
           <a href="{{ data.get('radar').get('href') }}"><img src="{{ data.get('radar').get('icon') }}" /></a>
           <a href="{{ data.get('satellite').get('href') }}"><img src="{{ data.get('satellite').get('icon') }}" /></a>
