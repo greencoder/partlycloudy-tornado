@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ data.get('about').get('title') }}</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet" />
+    <style type="text/css">
+    * {
+      box-sizing: border-box;
+      font-family: 'Lato', sans-serif;
+      color: #464646;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      padding: 0px;
+      margin: 0px;
+    }
+
+    body {
+      display: flex;
+      align-content: top;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    @media screen and (min-width: 401px) {
+      body {
+        background-color: #ccc;
+      }
+    }
+
+    div#container {
+      width: 100%;
+      max-width: 900px;
+      background-color: #fff;
+    }
+
+    section {
+      margin: 0px;
+      padding: 0px;
+      padding-bottom: 10px;
+      background-color: #fff;
+    }
+
+    section div {
+      display: inline-block;
+    }
+
+    section header {
+      width: 100%;
+      background-color: #efefef;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    section h1 {
+      font-size: 0.9em;
+      margin: 5px 0px;
+    }
+
+    section h2 {
+      font-size: 1.0em;
+      margin: 5px 0px;
+    }
+
+    section h3 {
+      font-size: 1.1em;
+      margin: 5px 0px;
+    }
+
+    section h4 {
+      margin: 10px 0px 10px 0px;
+      font-size: 0.9em;
+      font-weight: 400;
+    }
+
+    section main {
+      padding: 10px;
+      font-size: 1.0em;    }
+
+    section main.nopadding {
+      padding: 0px !important;
+    }
+
+    section main p {
+      line-height: 1.5em;
+    }
+
+    section main a {
+      color: #464646;
+    }
+
+    section main ul {
+      margin: 5px 0px 10px 0px;
+      list-style-type: none;
+      padding-left: 0px;
+      list-style-position: inside;
+    }
+
+    section main li {
+      margin: none;
+    }
+
+    section main img {
+      width: 86px;
+      padding-top: 0px;
+      border: 1px solid #ccc;
+    }
+
+    section main div.row {
+      display: flex;
+    }
+
+    section main div.left {
+      width: 100px;
+      padding-top: 5px;
+    }
+
+    section main div.right {
+      width: calc(100% - 100px);
+    }
+
+    section main div.right p {
+      margin-top: 0px;
+    }
+
+    section main div.forecast {
+      padding: 10px 10px 20px 10px;
+      border-bottom: 1px solid #efefef;
+      width: 100%;
+    }
+
+    section main div.forecast:last-child {
+      border-bottom: none;
+    }
+
+    section main div.forecast-text {
+      font-weight: 300;
+    }
+
+    section main.rad-sat {
+      padding-top: 20px;
+    }
+
+    section main.rad-sat img {
+      height: 100px;
+      width: auto;
+      margin-right: 15px;
+    }
+
+    span.temperature {
+      font-size: 2.7em;
+      font-weight: bold;
+    }
+
+    span.hi-lo {
+      display: inline-block;
+      margin-left: 5px;
+      font-size: 0.9em;
+      padding: 5px;
+    }
+
+    span.hi-lo.hi {
+      color: red;
+    }
+
+    span.hi-lo.lo {
+      color: blue;
+    }
+
+    span.wchill {
+      font-size: 1.0em;
+      font-weight: 300;
+    }
+
+    </style>
+  </head>
+  <body>
+    <div id="container">
+
+      <section id="conditions">
+        <header>
+          <h1>Current Conditions at</h1>
+          <h2>{{ data.get('location').get('name') }}</h2>
+        </header>
+        <main>
+          <div class="row">
+            <div class="left">
+              <img src="{{ data.get('conditions').get('icon') }}" />
+            </div>
+            <div class="right">
+                <span class="conditions">{{ data.get('conditions').get('conditions') }}</span><br/>
+                <span class="temperature">{{ data.get('conditions').get('temp_f') }}&deg;F</span><br/>
+                <span class="wchill">Feels like {{ data.get('conditions').get('wind_chill_f') }}&deg;F</span><br/>
+            </div>
+          </div>
+          <div>
+            <p>
+                <strong>Humidity:</strong>
+                {{ data.get('conditions').get('humidity_pct') }}%<br/>
+                <strong>Wind</strong>
+                {{ data.get('conditions').get('wind_dir') }} at {{ data.get('conditions').get('wind_sp_mph') }} mph<br/>
+                <strong>Pressure:</strong>
+                {{ data.get('conditions').get('pressure_in') }} in ({{ data.get('conditions').get('pressure_mb') }} mb)<br/>
+                <strong>Dew Point:</strong>
+                {{ data.get('conditions').get('dewpoint_f') }}&deg;F<br/>
+                <strong>Visibility:</strong>
+                {{ data.get('conditions').get('visibility_mi') }} miles<br/>
+            </p>
+          </div>
+        </main>
+      </section>
+
+      {% if len(data.get('alerts', [])) > 0 %}
+      <section id="alerts">
+        <header>Alerts</header>
+        <main>
+          <ul>
+          {% for alert in data.get('alerts') %}
+            <li><a href="{{ alert.get('href') }}">{{ alert.get('name') }}</a></li>
+          {% end %}
+          </ul>
+        </main>
+      </section>
+      {% end %}
+
+      <section id="forecasts">
+        <header>
+          <h1>Extended forecast for</h1>
+          <h2>{{ data.get('about').get('location') }}</h2>
+        </header>
+        <main class="nopadding">
+          {% for forecast in data.get('forecasts') %}
+          <div class="forecast">
+            <h3>{{ forecast.get('period') }}</h3>
+            <h4>{{ forecast.get('desc_short') }}</h4>
+            <div class="row">
+              <div class="left">
+                <img src="{{ forecast.get('icon') }}" />
+                <span class="hi-lo {{ forecast.get('hi_lo_type') }}"}>{{ forecast.get('hi_lo_label') }} {{ forecast.get('hi_lo_temp_f') }}&deg;F</span>
+              </div>
+              <div class="right forecast-text">
+                <p>{{ forecast.get('desc_long') }}</p>
+              </div>
+            </div>
+          </div>
+          {% end %}
+        </main>
+      </section>
+
+      <section id="radar">
+        <header>Radar and Satellite</header>
+        <main class="rad-sat">
+          <a href="{{ data.get('radar').get('href') }}"><img src="{{ data.get('radar').get('icon') }}" /></a>
+          <a href="{{ data.get('satellite').get('href') }}"><img src="{{ data.get('satellite').get('icon') }}" /></a>
+        </main>
+      </section>
+
+    </div>
+  </body>
+</html>

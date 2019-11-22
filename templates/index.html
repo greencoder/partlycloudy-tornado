@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Party Cloudy</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('svg').addEventListener('click', getLocation);
+        document.querySelector('h1').addEventListener('click', getLocation);
+      });
+
+      function getLocation() {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var lat = position.coords.latitude;
+          var lng = position.coords.longitude;
+          self.location.href = '/MapClick.php?lon=' + lng + '&lat=' + lat;
+        });
+      }
+    </script>
+    <style>
+      body {
+        padding-top: 50px;
+        font-size: 18px;
+      }
+      h1 {
+        text-align: center;
+        font-family: 'Lato', sans-serif;
+        font-size: 1.5em;
+      }
+      div {
+        width: 100%;
+        text-align: center;
+      }
+      svg {
+        text-align: center;
+        height: 200px;
+        width: 200px;
+      }
+    </style>
+  </head>
+  <body>
+      <div>
+        <svg height="60px" version="1.1" viewBox="0 0 60 60" width="60px" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <g fill="none" fill-rule="evenodd" id="flat" stroke="none" stroke-width="1">
+          <g id="location">
+            <path d="M30,60 C46.5685433,60 60,46.5685433 60,30 C60,13.4314567 46.5685433,0 30,0 C13.4314567,0 0,13.4314567 0,30 C0,46.5685433 13.4314567,60 30,60 Z" fill="blue"/>
+            <path d="M17.3076923,25.3846154 C17.3076923,31.7576923 28.8461538,46.6631611 28.8461538,46.2583571 C28.8461538,45.8535532 40.3846154,31.7576923 40.3846154,25.3846154 C40.3846154,19.0115385 35.2153846,13.8461538 28.8461538,13.8461538 C22.4769231,13.8461538 17.3076923,19.0115385 17.3076923,25.3846154 Z M23.0769231,24.2307692 C23.0769231,27.4173077 25.6615385,30 28.8461538,30 C32.0307692,30 34.6153846,27.4173077 34.6153846,24.2307692 C34.6153846,21.0442308 32.0307692,18.4615385 28.8461538,18.4615385 C25.6615385,18.4615385 23.0769231,21.0442308 23.0769231,24.2307692 Z" fill="#FFFFFF"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <h1>Use My Current Location</h1>
+  </body>
+</html>
