@@ -83,7 +83,8 @@ section main p {
 }
 
 section main a {
-  color: #464646;
+  color: blue;
+  text-decoration: none;
 }
 
 section main ul {
