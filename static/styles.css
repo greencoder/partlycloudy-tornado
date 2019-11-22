@@ -167,3 +167,10 @@ span.wchill {
   font-size: 1.0em;
   font-weight: 300;
 }
+
+footer {
+  padding: 20px 10px 20px 10px;
+  background-color: #fff;
+  border-top: 2px solid #efefef;
+  font-weight: 300;
+}

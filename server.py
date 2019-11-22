@@ -1,3 +1,4 @@
+import time
 import tornado.httpclient
 import tornado.ioloop
 import tornado.template
@@ -14,7 +15,7 @@ class FetchHandler(tornado.web.RequestHandler):
 
     async def _fetch_forecast_html(self, lat, lon):
         http_client = tornado.httpclient.AsyncHTTPClient()
-        url = f'https://forecast.weather.gov/MapClick.php?lat={lat}&lon={lon}'
+        url = f'https://forecast.weather.gov/MapClick.php?lat={lat}&lon={lon}&cache={time.time()}'
         headers = {'User-Agent': 'Mozilla 1.0'}
         response = await http_client.fetch(url, headers=headers, method='GET')
         return response.body
@@ -45,6 +46,7 @@ class MainHandler(tornado.web.RequestHandler):
 def make_app(debug):
     return tornado.web.Application([
         (r'/MapClick.php', FetchHandler),
+        (r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static'}),
         (r'/', MainHandler),
     ], debug=debug)
 

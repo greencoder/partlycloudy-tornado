@@ -2,180 +2,12 @@
 <html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="apple-mobile-web-app-title" content="Partly Cloudy" />
+    <link rel="apple-touch-icon" href="/static/icon.png" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
     <title>{{ data.get('about').get('title') }}</title>
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet" />
-    <style type="text/css">
-    * {
-      box-sizing: border-box;
-      font-family: 'Lato', sans-serif;
-      color: #464646;
-    }
-
-    html, body {
-      width: 100%;
-      height: 100%;
-      padding: 0px;
-      margin: 0px;
-    }
-
-    body {
-      display: flex;
-      align-content: top;
-      justify-content: center;
-      font-size: 16px;
-    }
-
-    @media screen and (min-width: 401px) {
-      body {
-        background-color: #ccc;
-      }
-    }
-
-    div#container {
-      width: 100%;
-      max-width: 900px;
-      background-color: #fff;
-    }
-
-    section {
-      margin: 0px;
-      padding: 0px;
-      padding-bottom: 10px;
-      background-color: #fff;
-    }
-
-    section div {
-      display: inline-block;
-    }
-
-    section header {
-      width: 100%;
-      background-color: #efefef;
-      padding: 10px;
-      font-weight: bold;
-      font-size: 1.2em;
-    }
-
-    section h1 {
-      font-size: 0.9em;
-      margin: 5px 0px;
-    }
-
-    section h2 {
-      font-size: 1.0em;
-      margin: 5px 0px;
-    }
-
-    section h3 {
-      font-size: 1.1em;
-      margin: 5px 0px;
-    }
-
-    section h4 {
-      margin: 10px 0px 10px 0px;
-      font-size: 0.9em;
-      font-weight: 400;
-    }
-
-    section main {
-      padding: 10px;
-      font-size: 1.0em;    }
-
-    section main.nopadding {
-      padding: 0px !important;
-    }
-
-    section main p {
-      line-height: 1.5em;
-    }
-
-    section main a {
-      color: #464646;
-    }
-
-    section main ul {
-      margin: 5px 0px 10px 0px;
-      list-style-type: none;
-      padding-left: 0px;
-      list-style-position: inside;
-    }
-
-    section main li {
-      margin: none;
-    }
-
-    section main img {
-      width: 86px;
-      padding-top: 0px;
-      border: 1px solid #ccc;
-    }
-
-    section main div.row {
-      display: flex;
-    }
-
-    section main div.left {
-      width: 100px;
-      padding-top: 5px;
-    }
-
-    section main div.right {
-      width: calc(100% - 100px);
-    }
-
-    section main div.right p {
-      margin-top: 0px;
-    }
-
-    section main div.forecast {
-      padding: 10px 10px 20px 10px;
-      border-bottom: 1px solid #efefef;
-      width: 100%;
-    }
-
-    section main div.forecast:last-child {
-      border-bottom: none;
-    }
-
-    section main div.forecast-text {
-      font-weight: 300;
-    }
-
-    section main.rad-sat {
-      padding-top: 20px;
-    }
-
-    section main.rad-sat img {
-      height: 100px;
-      width: auto;
-      margin-right: 15px;
-    }
-
-    span.temperature {
-      font-size: 2.7em;
-      font-weight: bold;
-    }
-
-    span.hi-lo {
-      display: inline-block;
-      margin-left: 5px;
-      font-size: 0.9em;
-      padding: 5px;
-    }
-
-    span.hi-lo.hi {
-      color: red;
-    }
-
-    span.hi-lo.lo {
-      color: blue;
-    }
-
-    span.wchill {
-      font-size: 1.0em;
-      font-weight: 300;
-    }
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" />
+    <link rel="stylesheet" href="/static/styles.css" />
     </style>
   </head>
   <body>
@@ -194,14 +26,16 @@
             <div class="right">
                 <span class="conditions">{{ data.get('conditions').get('conditions') }}</span><br/>
                 <span class="temperature">{{ data.get('conditions').get('temp_f') }}&deg;F</span><br/>
+                {% if data.get('conditions').get('wind_chill_f') %}
                 <span class="wchill">Feels like {{ data.get('conditions').get('wind_chill_f') }}&deg;F</span><br/>
+                {% end %}
             </div>
           </div>
           <div>
             <p>
                 <strong>Humidity:</strong>
                 {{ data.get('conditions').get('humidity_pct') }}%<br/>
-                <strong>Wind</strong>
+                <strong>Wind:</strong>
                 {{ data.get('conditions').get('wind_dir') }} at {{ data.get('conditions').get('wind_sp_mph') }} mph<br/>
                 <strong>Pressure:</strong>
                 {{ data.get('conditions').get('pressure_in') }} in ({{ data.get('conditions').get('pressure_mb') }} mb)<br/>
@@ -216,7 +50,7 @@
 
       {% if len(data.get('alerts', [])) > 0 %}
       <section id="alerts">
-        <header>Alerts</header>
+        <header>Hazardous Weather Conditions</header>
         <main>
           <ul>
           {% for alert in data.get('alerts') %}
@@ -235,12 +69,15 @@
         <main class="nopadding">
           {% for forecast in data.get('forecasts') %}
           <div class="forecast">
-            <h3>{{ forecast.get('period') }}</h3>
+            <h3>
+              {{ forecast.get('period') }}
+              <span class="hi-lo {{ forecast.get('hi_lo_type') }}"}>{{ forecast.get('hi_lo_label') }} {{ forecast.get('hi_lo_temp_f') }}&deg;F</span>
+
+            </h3>
             <h4>{{ forecast.get('desc_short') }}</h4>
             <div class="row">
               <div class="left">
                 <img src="{{ forecast.get('icon') }}" />
-                <span class="hi-lo {{ forecast.get('hi_lo_type') }}"}>{{ forecast.get('hi_lo_label') }} {{ forecast.get('hi_lo_temp_f') }}&deg;F</span>
               </div>
               <div class="right forecast-text">
                 <p>{{ forecast.get('desc_long') }}</p>
@@ -258,6 +95,10 @@
           <a href="{{ data.get('satellite').get('href') }}"><img src="{{ data.get('satellite').get('icon') }}" /></a>
         </main>
       </section>
+
+      <footer>
+        Last Updated: {{ data.get('about').get('updated') }}
+      </footer>
 
     </div>
   </body>
