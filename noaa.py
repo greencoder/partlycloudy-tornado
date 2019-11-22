@@ -55,6 +55,7 @@ class NoaaParser(object):
         dewpoint_f = self.__safe_int(tr_els[3].find_all('td')[-1].text.split('°F')[0])
         visibility_mi = self.__safe_float(tr_els[4].find_all('td')[-1].text.split(' mi')[0])
         wind_chill_f = self.__safe_int(tr_els[5].find_all('td')[-1].text.split('°F')[0])
+        updated_at = tr_els[-1].find_all('td')[-1].text.strip()
 
         return {
             'humidity_pct': humidity_pct,
@@ -65,6 +66,7 @@ class NoaaParser(object):
             'dewpoint_f': dewpoint_f,
             'visibility_mi': visibility_mi,
             'wind_chill_f': wind_chill_f,
+            'updated': updated_at,
         }
 
     def _parse_alerts(self, soup):
@@ -136,13 +138,15 @@ class NoaaParser(object):
 
         point_fct = self.__replace_breaks(div_row_els[0].find('div', class_='right'))
         point_fct_loc, point_fct_geo = point_fct.text.split(' \xa0')
+
+
         last_update = div_row_els[1].find('div', class_='right').text
 
         return {
             'location': point_fct_loc,
             'geo': point_fct_geo,
             'title': f'7-Day Forecast for {point_fct_geo}',
-            'updated': last_update,
+            'forecast_updated': last_update,
         }
 
 
