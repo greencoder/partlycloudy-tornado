@@ -48,8 +48,6 @@ class NoaaParser(object):
         tr_els = table_el.find_all('tr')
 
         humidity_pct = self.__safe_int(tr_els[0].find_all('td')[-1].text.replace('%', ''))
-        wind_dir = tr_els[1].find_all('td')[-1].text.split(' ')[0]
-        wind_sp_mph = self.__safe_int(tr_els[1].find_all('td')[-1].text.split(' ')[1])
         pressure_in = self.__safe_float(tr_els[2].find_all('td')[-1].text.split(' in (')[0])
         pressure_mb = self.__safe_float(tr_els[2].find_all('td')[-1].text.split(' in (')[-1].replace(' mb)', ''))
         dewpoint_f = self.__safe_int(tr_els[3].find_all('td')[-1].text.split('°F')[0])
@@ -57,8 +55,18 @@ class NoaaParser(object):
         wind_chill_f = self.__safe_int(tr_els[5].find_all('td')[-1].text.split('°F')[0])
         updated_at = tr_els[-1].find_all('td')[-1].text.strip()
 
+        wind_str = tr_els[1].find_all('td')[-1].text
+        wind_parts = wind_str.split(' ')
+        wind_sp_mph = None
+        wind_dir = None
+
+        if len(wind_parts) > 1:
+            wind_sp_mph = self.__safe_int(wind_parts[1])
+            wind_dir = wind_parts[0]
+
         return {
             'humidity_pct': humidity_pct,
+            'wind_str': wind_str,
             'wind_dir': wind_dir,
             'wind_sp_mph': wind_sp_mph,
             'pressure_in': pressure_in,
@@ -176,9 +184,15 @@ if __name__ == '__main__':
     import json
     import pathlib
     import requests
+    import sys
+
+    url = 'https://forecast.weather.gov/MapClick.php?lat=39.6121&lon=-104.6745'
+
+    if len(sys.argv) == 2:
+        url = sys.argv[-1]
 
     parser = NoaaParser()
-    response = requests.get('https://forecast.weather.gov/MapClick.php?lat=39.6121&lon=-104.6745')
+    response = requests.get(url)
     data = parser.parse(response.text)
 
     pathlib.Path('temp/noaa.json').write_text(json.dumps(data, indent=2))
