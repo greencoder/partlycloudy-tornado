@@ -106,7 +106,13 @@ class NoaaParser(object):
             desc_long = desc_long.split(': ')[-1]
 
             # Parse the high/low label and value
-            hi_lo_text = li_el.find('p', class_='temp').text
+            hi_lo_el = li_el.find('p', class_='temp')
+
+            # The current alert might be the first tombstone element
+            if hi_lo_el is None or hi_lo_el.text.startswith('NOW'):
+                continue
+
+            hi_lo_text = hi_lo_el.text
             hi_lo_label = hi_lo_text.split(':')[0].strip()
             hi_lo_temp_f = self.__safe_int(hi_lo_text.split(' ')[1])
             hi_lo_type = 'hi' if hi_lo_label == 'High' else 'lo'
