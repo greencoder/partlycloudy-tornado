@@ -136,11 +136,13 @@ class NoaaParser(object):
 
         point_fct = self.__replace_breaks(div_row_els[0].find('div', class_='right'))
         point_fct_loc, point_fct_geo = point_fct.text.split(' \xa0')
+        last_update = div_row_els[1].find('div', class_='right').text
 
         return {
             'location': point_fct_loc,
             'geo': point_fct_geo,
             'title': f'7-Day Forecast for {point_fct_geo}',
+            'updated': last_update,
         }
 
 

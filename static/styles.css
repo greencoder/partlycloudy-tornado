@@ -1,0 +1,169 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
+  color: #464646;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+
+body {
+  display: flex;
+  align-content: top;
+  justify-content: center;
+  font-size: 16px;
+}
+
+@media screen and (min-width: 401px) {
+  body {
+    background-color: #ccc;
+  }
+}
+
+div#container {
+  width: 100%;
+  max-width: 900px;
+  background-color: #fff;
+}
+
+section {
+  margin: 0px;
+  padding: 0px;
+  padding-bottom: 10px;
+  background-color: #fff;
+}
+
+section div {
+  display: inline-block;
+}
+
+section header {
+  width: 100%;
+  background-color: #efefef;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+section h1 {
+  font-size: 0.9em;
+  margin: 5px 0px;
+}
+
+section h2 {
+  font-size: 1.0em;
+  margin: 5px 0px;
+}
+
+section h3 {
+  font-size: 1.2em;
+  margin: 5px 0px;
+}
+
+section h4 {
+  margin: 10px 0px 10px 0px;
+  font-size: 0.9em;
+  font-weight: 400;
+}
+
+section main {
+  padding: 10px;
+  font-size: 1.0em;    }
+
+section main.nopadding {
+  padding: 0px !important;
+}
+
+section main p {
+  line-height: 1.5em;
+}
+
+section main a {
+  color: #464646;
+}
+
+section main ul {
+  margin: 5px 0px 10px 0px;
+  list-style-type: none;
+  padding-left: 0px;
+  list-style-position: inside;
+}
+
+section main li {
+  margin: none;
+}
+
+section main img {
+  width: 86px;
+  padding-top: 0px;
+  border: 1px solid #ccc;
+}
+
+section main div.row {
+  display: flex;
+}
+
+section main div.left {
+  width: 100px;
+  padding-top: 5px;
+}
+
+section main div.right {
+  width: calc(100% - 100px);
+}
+
+section main div.right p {
+  margin-top: 0px;
+}
+
+section main div.forecast {
+  padding: 10px 10px 20px 10px;
+  border-bottom: 1px solid #efefef;
+  width: 100%;
+}
+
+section main div.forecast:last-child {
+  border-bottom: none;
+}
+
+section main div.forecast-text {
+  font-weight: 400;
+}
+
+section main.rad-sat {
+  padding-top: 20px;
+}
+
+section main.rad-sat img {
+  height: 100px;
+  width: auto;
+  margin-right: 15px;
+}
+
+span.temperature {
+  font-size: 2.7em;
+  font-weight: bold;
+}
+
+span.hi-lo {
+  display: inline-block;
+  margin-left: 5px;
+  font-weight: 400;
+}
+
+span.hi-lo.hi {
+  color: red;
+}
+
+span.hi-lo.lo {
+  color: blue;
+}
+
+span.wchill {
+  font-size: 1.0em;
+  font-weight: 300;
+}
