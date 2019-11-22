@@ -13,6 +13,10 @@ from noaa import NoaaParser
 
 class FetchHandler(tornado.web.RequestHandler):
 
+    def prepare(self):
+        if ('X-Forwarded-Proto' in self.request.headers and self.request.headers['X-Forwarded-Proto'] != 'https'):
+            self.redirect(re.sub(r'^([^:]+)', 'https', self.request.full_url()))
+
     async def _fetch_forecast_html(self, lat, lon):
         http_client = tornado.httpclient.AsyncHTTPClient()
         url = f'https://forecast.weather.gov/MapClick.php?lat={lat}&lon={lon}&cache={time.time()}'
@@ -36,6 +40,10 @@ class FetchHandler(tornado.web.RequestHandler):
 
 
 class MainHandler(tornado.web.RequestHandler):
+
+    def prepare(self):
+        if ('X-Forwarded-Proto' in self.request.headers and self.request.headers['X-Forwarded-Proto'] != 'https'):
+            self.redirect(re.sub(r'^([^:]+)', 'https', self.request.full_url()))
 
     def get(self):
         loader = tornado.template.Loader('templates')
